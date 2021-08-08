@@ -1,0 +1,130 @@
+//-----间距相关
+@for $space from 1 through 30 {
+  $types: (
+    "m": margin,
+    "p": padding,
+  );
+  $directions: (
+    "l": left,
+    "r": right,
+    "t": top,
+    "b": bottom,
+  );
+  //循环类型
+  @each $key in "m" "p" {
+    //margin or padding
+    $type: map-get(
+      $map: $types,
+      $key: $key,
+    );
+    //所有方向
+    .#{$key}-#{$space} {
+      #{$type}: unquote($string: $space + "px");
+    }
+    //四循环方向个方向
+    @each $dir in map-keys($map: $directions) {
+      $direction: map-get(
+        $map: $directions,
+        $key: $dir,
+      );
+      .#{$key}#{$dir}-#{$space} {
+        #{$type}-#{$direction}: unquote($string: $space + "px");
+      }
+    }
+    //左右
+    .#{$key}x-#{$space} {
+      #{$type}-left: unquote($string: $space + "px");
+      #{$type}-right: unquote($string: $space + "px");
+    }
+    //上下
+    .#{$key}y-#{$space} {
+      #{$type}-top: unquote($string: $space + "px");
+      #{$type}-bottom: unquote($string: $space + "px");
+    }
+  }
+}
+
+//-----圆角
+.round {
+  border-radius: 50%;
+}
+@for $var from 0 through 20 {
+  .br-#{$var} {
+    border-radius: $var + px;
+  }
+}
+
+//-----flex布局
+$flex-dir: (
+  "x": row,
+  "y": column,
+  "xr": row-reverse,
+  "yr": column-reverse,
+);
+//对齐方向
+$align-dir: (
+  "start": flex-start,
+  "center": center,
+  "end": flex-end,
+  "around": space-around,
+  "between": space-between,
+);
+@each $key in map-keys($map: $flex-dir) {
+  //flex方向
+  .flex-#{$key} {
+    display: flex;
+    flex-direction: map-get($map: $flex-dir, $key: $key);
+  }
+}
+@each $key in map-keys($map: $align-dir) {
+  .jc-#{$key} {
+    justify-content: map-get($map: $align-dir, $key: $key);
+  }
+  .ai-#{$key} {
+    align-items: map-get($map: $align-dir, $key: $key);
+  }
+}
+@for $var from 0 through 3 {
+  .grow-#{$var} {
+    flex-grow: $var;
+  }
+}
+.center {
+  @extend .flex-x;
+  @extend .jc-center;
+  @extend .ai-center;
+}
+
+//-----大小
+@each $num in 50 60 70 80 90 100 {
+  .w-#{$num} {
+    width: unquote($string: $num + "%");
+  }
+  .h-#{$num} {
+    height: unquote($string: $num + "%");
+  }
+}
+
+//-----字体
+//大小
+@for $size from 10 through 20 {
+  .fs-#{$size} {
+    font-size: unquote($string: $size + "px");
+  }
+}
+//粗细
+$font-weight: (
+  lg: lighter,
+  nor: normal,
+  bl: bold,
+  bler: bolder,
+);
+@each $var in lg nor bl bler {
+  .ft-#{$var} {
+    font-weight: map-get($map: $font-weight, $key: $var);
+  }
+}
+
+.bg-1 {
+  background-color: rgb(148, 0, 211);
+}

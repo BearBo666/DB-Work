@@ -1,0 +1,1 @@
+export const saveStudentInfo = info => ({ type: 'INFO', data: info })
