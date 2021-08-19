@@ -11,6 +11,7 @@ function encrypto(str) {
 
 //签发token
 function signToken(signObj) {
+    //30天过期
     return JWT.sign(signObj, key, { expiresIn: 60 * 60 * 24 * 30 })
 }
 

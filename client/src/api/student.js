@@ -10,7 +10,7 @@ export function studentLogin(data) {
 }
 
 //修改个人信息
-export function Update(data) {
+export function studentUpdate(data) {
     return service({
         url: '',
         method: 'post',
@@ -19,7 +19,7 @@ export function Update(data) {
 }
 
 //课表
-export function Schedule(params) {
+export function studentSchedule(params) {
     return service({
         url: '',
         method: 'get',

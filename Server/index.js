@@ -1,12 +1,14 @@
 const express = require('express')
 const logger = require('morgan');
 const bodyParser = require('body-parser')
+const Cors = require('cors')
 const app = express()
 
 const { port } = require('./config')
 const formate = require('./middleware/formate')
 
 //中间件
+app.use(Cors())
 app.use(formate)
 app.use(logger('dev'))
 app.use(bodyParser.json());

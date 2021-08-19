@@ -45,7 +45,6 @@ router.post('/select', (req, res) => {
 
 //学生更新信息：密码，邮箱
 router.post('/update', (req, res) => {
-    console.log(111)
     updateInfo(req.body).then(result => { res.send(result) }).catch(err => { res.send(err) })
 })
 

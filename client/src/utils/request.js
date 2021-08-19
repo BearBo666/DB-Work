@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { getToken } from './token'
 
+import { message } from 'antd'
+
 const service = axios.create({
     baseURL: 'http://82.156.182.27:9270',
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     withCredentials: false,
 });
 
@@ -18,11 +19,11 @@ service.interceptors.request.use(config => {
 
 //响应拦截
 service.interceptors.response.use(({ data }) => {
-    if (data.code === 10000) {
-        return data
-    } else {
-        return Promise.reject(new Error(data.msg || 'Error'));
+    if (data.code !== 10000) {
+        message.error(data.msg || 'error');
     }
+
+    return data
 })
 
 export default service

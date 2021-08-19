@@ -54,8 +54,8 @@ router.get('/student', (req, res) => {
 })
 
 //班主任管理班级：查看学生成绩、课表、修改学生密码
-router.use('/manageClass', (req, res) => {
-    manageClass(req).then(result => { res.send(result) }).catch(err => { res.send(err) })
-})
+// router.use('/manageClass', (req, res) => {
+//     manageClass(req).then(result => { res.send(result) }).catch(err => { res.send(err) })
+// })
 
 module.exports = router

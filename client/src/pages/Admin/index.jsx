@@ -13,12 +13,16 @@ import {
   ToolOutlined,
 } from "@ant-design/icons";
 
-import { Menu } from "antd";
+import { Menu, Spin } from "antd";
 import { Route, Switch } from "react-router-dom";
 const { Item, SubMenu } = Menu;
 
 //路由
 const College = lazy(() => import("./modules/college"));
+const Major = lazy(() => import("./modules/major"));
+const Class = lazy(() => import("./modules/class"));
+const Teacher = lazy(() => import("./modules/teacher"));
+const Student = lazy(() => import("./modules/student"));
 
 export default class Home extends Component {
   state = {
@@ -83,9 +87,13 @@ export default class Home extends Component {
             </SubMenu>
           </Menu>
           <div className="p-20 grow-2">
-            <Suspense fallback={<h1>loading....</h1>}>
+            <Suspense fallback={<Spin tip="加载中"></Spin>}>
               <Switch>
                 <Route path="/admin/college" component={College}></Route>
+                <Route path="/admin/major" component={Major}></Route>
+                <Route path="/admin/class" component={Class}></Route>
+                <Route path="/admin/teacher" component={Teacher}></Route>
+                <Route path="/admin/student" component={Student}></Route>
               </Switch>
             </Suspense>
           </div>

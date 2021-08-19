@@ -2,11 +2,9 @@ module.exports = (req, res, next) => {
     //处理分页参数
     if (req.method == 'GET') {
         let { currentPage, pageNum } = req.query
-        currentPage = currentPage ? Number(currentPage) : 1
-        pageNum = pageNum ? Number(pageNum) : 20
-
-        req.query.currentPage = currentPage
-        req.query.pageNum = pageNum
+        //默认第1页，每页20条
+        req.query.currentPage = currentPage ? Number(currentPage) : 1
+        req.query.pageNum = pageNum ? Number(pageNum) : 20
     }
     //格式ip内容
     let env = process.env.NODE_ENV

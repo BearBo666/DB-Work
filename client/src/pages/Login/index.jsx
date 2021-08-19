@@ -50,20 +50,17 @@ class Login extends PureComponent {
   login = async () => {
     let res;
     const { current, teacherNum, password, studentNum, account } = this.state;
+    //不同身份登录
     if (current === "teacher") {
-      res = await api.teacherLogin({ teacherNum, password }).catch((err) => {
-        message.error(err);
-      });
+      res = await api.teacherLogin({ teacherNum, password });
     } else if (current === "student") {
-      res = await api.studentLogin({ studentNum, password }).catch((err) => {
-        message.error(err);
-      });
+      res = await api.studentLogin({ studentNum, password });
     } else {
-      res = await api.adminLogin({ account, password }).catch((err) => {
-        message.error(err);
-      });
+      res = await api.adminLogin({ account, password });
     }
+    //成功
     if (res) {
+      window.localStorage.setItem("token", res.data.token);
       this.props.history.push("/" + current);
     }
   };

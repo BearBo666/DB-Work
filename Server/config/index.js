@@ -1,8 +1,7 @@
 const setting = require('./setting')
-const { mySequelize, redisClient } = require('./db')
+const db = require('./db')
 
 module.exports = {
-    mySequelize,
-    redisClient,
+    ...db,
     ...setting
 }

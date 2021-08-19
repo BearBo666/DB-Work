@@ -1,4 +1,4 @@
-const { Class } = require('../../models')
+const { Class, Teacher } = require('../../models')
 const { filterNull } = require('../../utils/object')
 
 //增加班级
@@ -65,7 +65,19 @@ function getClass(params) {
                 reject({ code: 30001, msg: 'server error' })
             })
 
-            resolve({ code: 10000, data: rows, count })
+            let asyncFunc = []
+            rows.forEach(row => {
+                asyncFunc.push(new Promise(async (resolve, reject) => {
+                    const teacher = await row.getTeacher()
+                    const { dataValues } = row
+                    dataValues.teacherName = teacher.dataValues.name
+                    resolve(dataValues)
+                }))
+            });
+
+            Promise.all(asyncFunc).then(data => {
+                resolve({ code: 10000, data: data, count })
+            })
         }
     })
 }
