@@ -5,8 +5,8 @@ import (
 	"DB-Server/models"
 	"log"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 var (
@@ -17,14 +17,14 @@ var (
 // 打开数据库
 func OpenDataBase() (err error) {
 	if GDB == nil {
-		GDB, err = gorm.Open(config.DBConfig.Driver, config.DBConfig.Source)
+		GDB, err = gorm.Open(mysql.Open(config.DBConfig.Source))
 
 		if err != nil {
 			log.Println("连接数据库失败")
 		}
 
 		// 单数命名表
-		GDB.SingularTable(true)
+		// GDB.SingularTable(true)
 	}
 	return
 }
@@ -44,13 +44,13 @@ func InitTable() {
 	}
 
 	// 删除原表
-	GDB.DropTableIfExists(
-		&models.User{},
-		&models.Pioneer{},
-		&models.Category{},
-		&models.PioneerCate{},
-		&models.PioneerTopic{},
-	)
+	// GDB.DropTableIfExists(
+	// 	&models.User{},
+	// 	&models.Pioneer{},
+	// 	&models.Category{},
+	// 	&models.PioneerCate{},
+	// 	&models.PioneerTopic{},
+	// )
 
 	// 自动迁移
 	GDB.AutoMigrate(
@@ -62,8 +62,8 @@ func InitTable() {
 	)
 
 	// 添加外键
-	GDB.Model(&models.Pioneer{}).AddForeignKey("userId", "user(userId)", "CASCADE", "CASCADE")
-	GDB.Model(&models.PioneerCate{}).AddForeignKey("pioneerId", "pioneer(pioneerId)", "CASCADE", "CASCADE")
-	GDB.Model(&models.PioneerCate{}).AddForeignKey("categoryId", "category(categoryId)", "CASCADE", "CASCADE")
-	GDB.Model(&models.PioneerTopic{}).AddForeignKey("pioneerId", "pioneer(pioneerId)", "CASCADE", "CASCADE")
+	// GDB.Model(&models.Pioneer{}).AddForeignKey("userId", "user(userId)", "CASCADE", "CASCADE")
+	// GDB.Model(&models.PioneerCate{}).AddForeignKey("pioneerId", "pioneer(pioneerId)", "CASCADE", "CASCADE")
+	// GDB.Model(&models.PioneerCate{}).AddForeignKey("categoryId", "category(categoryId)", "CASCADE", "CASCADE")
+	// GDB.Model(&models.PioneerTopic{}).AddForeignKey("pioneerId", "pioneer(pioneerId)", "CASCADE", "CASCADE")
 }

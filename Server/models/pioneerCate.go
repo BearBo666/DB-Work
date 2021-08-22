@@ -6,8 +6,8 @@ type PioneerCate struct {
 	PioneerId  int `gorm:"size:11;column:pioneerId"`
 	CategoryId int `gorm:"size:11;column:categoryId"`
 	// 关联
-	Pioneer  Pioneer
-	Category Category
+	// Pioneer  Pioneer  `gorm:"foreignKey:PioneerId"`
+	// Category Category `gorm:"foreignKey:CategoryId"`
 }
 
 func (*PioneerCate) TableName() string {

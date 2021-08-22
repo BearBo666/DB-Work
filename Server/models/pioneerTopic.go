@@ -7,7 +7,12 @@ type PioneerTopic struct {
 	Content   string `gorm:"type:longText;column:content"`
 	PioneerId int    `gorm:"size:11;column:pioneerId"`
 	// 关联
-	Pioneer Pioneer
+	// Pioneer Pioneer `gorm:"foreignKey:PioneerId"`
+}
+
+type Topic struct {
+	Title   string
+	Content string
 }
 
 func (*PioneerTopic) TableName() string {
