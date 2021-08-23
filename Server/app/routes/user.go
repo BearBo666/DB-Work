@@ -9,4 +9,5 @@ import (
 func userRoute(r *gin.Engine) {
 	route := r.Group("/user")
 	route.POST("/login", handles.Login)
+	route.POST("/register", handles.Register)
 }

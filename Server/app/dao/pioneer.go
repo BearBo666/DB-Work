@@ -11,24 +11,15 @@ type PioneerDaoManage struct {
 var PioneerDao PioneerDaoManage
 
 // 根据前人id查找前人
-func (u *PioneerDaoManage) FindOne(ids []int) (pioneer []Pioneer, err error) {
-	err = OpenDataBase()
-	if err != nil {
-		return
-	}
-	defer CloseDataBase()
+func (u *PioneerDaoManage) FindById(ids []int) (pioneer []Pioneer, err error) {
 
-	err = GDB.Preload("User").Preload("Topics").Find(&pioneer, ids).Error
+	err = GDB.Preload("Topics").Find(&pioneer, ids).Error
 
 	return
 }
 
 // 创建一个前人
-func (u *PioneerDaoManage) Create(userId int, name, title, email, introduce, avatar, freeTime string, topics []Topic) (pioneer *Pioneer, err error) {
-	err = OpenDataBase()
-	if err != nil {
-		return
-	}
+func (u *PioneerDaoManage) Create(userId, categoryId int, name, title, email, introduce, avatar, freeTime string, topics []Topic) (pioneer *Pioneer, err error) {
 
 	// 开启事务
 	tx := GDB.Begin()
@@ -49,8 +40,15 @@ func (u *PioneerDaoManage) Create(userId int, name, title, email, introduce, ava
 		pt := PioneerTopic{PioneerId: pioneer.PioneerId, Title: topic.Title, Content: topic.Content}
 		pioneerTopics = append(pioneerTopics, pt)
 	}
-	// fmt.Println(pioneerTopics)
 	err = tx.Create(&pioneerTopics).Error
+	if err != nil {
+		tx.Rollback()
+		return
+	}
+
+	// 创建前人所对应的领域
+	pioneerCate := &PioneerCate{CategoryId: categoryId, PioneerId: pioneer.PioneerId}
+	err = tx.Create(pioneerCate).Error
 	if err != nil {
 		tx.Rollback()
 		return
