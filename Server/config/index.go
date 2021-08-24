@@ -38,7 +38,6 @@ func InitConfig() {
 	// 提取设置参数
 	cfgSetting := v.Sub("setting")
 	Setting = initSetting(cfgSetting)
-
 	// 提取数据库配置
 	cfgDB := v.Sub(env)
 	if cfgDB == nil {

@@ -15,12 +15,15 @@ func Login(c *gin.Context) {
 		user, err := UserDao.FindOne(body.UserName, body.Password)
 		if err != nil {
 			c.JSON(200, dto.FailAndMsg("用户名或密码错误"))
+		} else {
+			token, err := helpers.SignToken(user.UserId)
+
+			if err != nil {
+				c.JSON(200, dto.Error())
+			} else {
+				c.JSON(200, dto.OkAndData(token))
+			}
 		}
-		token, err := helpers.SignToken(user.UserName)
-		if err != nil {
-			c.JSON(200, dto.Error())
-		}
-		c.JSON(200, dto.OkAndData(token))
 	} else {
 		c.JSON(200, dto.FailAndMsg("未传递用户名或密码"))
 	}

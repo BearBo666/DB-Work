@@ -13,7 +13,7 @@ var PioneerCateDao PioneerCateDaoManage
 // 根据某个领域的id获得此领域前人的id
 func (*PioneerCateDaoManage) FindByCateId(categoryId, pageNum, currentPage int) (ids []int, err error) {
 
-	err = GDB.Order("createdAt DESC").Limit(pageNum).Offset((currentPage-1)*pageNum).Pluck("pioneerId", &ids).Error
+	err = GDB.Model(&PioneerCate{}).Order("createdAt DESC").Limit(pageNum).Offset((currentPage-1)*pageNum).Pluck("pioneerId", &ids).Error
 	return
 }
 

@@ -9,7 +9,7 @@ type Pioneer struct {
 	PioneerId int       `gorm:"primary_key;size:11;column:pioneerId"`
 	Name      string    `gorm:"size:255;column:name"`
 	Title     string    `gorm:"size:255;column:title"`
-	Email     string    `gorm:"size:255;column:wechat"`
+	Email     string    `gorm:"size:255;column:email"`
 	Introduce string    `gorm:"size:255;column:introduce"`
 	Avatar    string    `gorm:"size:255;column:avatar"`
 	FreeTime  string    `gorm:"size:255;column:freeTime"`

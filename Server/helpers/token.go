@@ -8,21 +8,21 @@ import (
 )
 
 type Claim struct {
-	Username string
+	UserId int
 	jwt.StandardClaims
 }
 
-var (
-	secret  = config.Setting.JwtSecret
-	timeout = config.Setting.JwtTimeout * 60 * 60
-)
-
 // 签发token
-func SignToken(username string) (string, error) {
-	expireTime := time.Now().Add(time.Duration(timeout))
+func SignToken(userId int) (string, error) {
+	var (
+		secret = config.Setting.JwtSecret
+		// timeout = config.Setting.JwtTimeout
+	)
+
+	expireTime := time.Now().Add(time.Hour * 7)
 
 	claims := Claim{
-		Username: username,
+		UserId: userId,
 		StandardClaims: jwt.StandardClaims{
 			// 过期时间
 			ExpiresAt: expireTime.Unix(),
@@ -31,23 +31,21 @@ func SignToken(username string) (string, error) {
 		},
 	}
 
-	tokenClaim := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	tokenClaim := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return tokenClaim.SignedString(secret)
+	return tokenClaim.SignedString([]byte(secret))
 }
 
 // 验证token
 func VerifyToken(token string) (*Claim, error) {
-	tokenClaims, err := jwt.ParseWithClaims(token, &Claim{}, func(token *jwt.Token) (interface{}, error) {
-		return secret, nil
-	})
+	var (
+		secret = config.Setting.JwtSecret
+	)
 
-	if tokenClaims != nil {
-		// 从tokenClaims中获取到Claims对象，并使用断言，将该对象转换为我们自己定义的Claims
-		// 要传入指针，项目中结构体都是用指针传递，节省空间。
-		if claim, ok := tokenClaims.Claims.(*Claim); ok && tokenClaims.Valid {
-			return claim, nil
-		}
-	}
-	return nil, err
+	claim := &Claim{}
+
+	_, err := jwt.ParseWithClaims(token, claim, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+	return claim, err
 }

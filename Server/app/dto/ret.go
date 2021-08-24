@@ -1,9 +1,14 @@
 package dto
 
 type Ret struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type RetWithData struct {
 	Code int         `json:"code"`
-	Data interface{} `json:"data"`
 	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
 const (
@@ -20,7 +25,7 @@ func Ok() (r Ret) {
 }
 
 // 请求成功并返回数据
-func OkAndData(data interface{}) (r Ret) {
+func OkAndData(data interface{}) (r RetWithData) {
 	r.Code = SUCCESS
 	r.Msg = "Success"
 	r.Data = data

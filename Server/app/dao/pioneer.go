@@ -11,9 +11,13 @@ type PioneerDaoManage struct {
 var PioneerDao PioneerDaoManage
 
 // 根据前人id查找前人
-func (u *PioneerDaoManage) FindById(ids []int) (pioneer []Pioneer, err error) {
+func (u *PioneerDaoManage) FindByIds(ids []int, currentPage, pageNum int) (pioneer []Pioneer, err error) {
 
-	err = GDB.Preload("Topics").Find(&pioneer, ids).Error
+	if len(ids) > 0 {
+		err = GDB.Preload("Topics").Find(&pioneer, ids).Error
+	} else {
+		err = GDB.Limit(pageNum).Offset((currentPage - 1) * pageNum).Find(&pioneer).Error
+	}
 
 	return
 }

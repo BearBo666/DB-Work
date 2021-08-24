@@ -11,8 +11,8 @@ type PioneerTopic struct {
 }
 
 type Topic struct {
-	Title   string
-	Content string
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 func (*PioneerTopic) TableName() string {
