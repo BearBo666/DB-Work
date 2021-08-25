@@ -23,7 +23,7 @@ type CategoryForm struct {
 	IconClass    string `form:"iconClass" binding:"required"`
 }
 
-type QueryParams struct {
-	CurrentPage int `form:"currentPage"`
-	PageNum     int `form:"pageNum"`
+type ArticleForm struct {
+	Title   string `form:"title" binding:"required"`
+	Content string `form:"content" binding:"required"`
 }

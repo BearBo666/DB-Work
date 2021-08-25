@@ -22,7 +22,9 @@ func (*CategoryDaoManage) FindAll() (categoryList []Category, err error) {
 func (*CategoryDaoManage) Create(categoryName, iconClass string) (category *Category, err error) {
 
 	category = &Category{CategoryName: categoryName, IconClass: iconClass}
-	err = GDB.Create(category).Error
+	if err = GDB.Create(category).Error; err != nil {
+		return nil, err
+	}
 
 	return
 }

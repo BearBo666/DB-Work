@@ -39,5 +39,7 @@ func InitTable() {
 		&models.Category{},
 		&models.PioneerCate{},
 		&models.PioneerTopic{},
+		&models.Admin{},
+		&models.Article{},
 	)
 }

@@ -12,7 +12,7 @@ func Sha256Crypto(str string) string {
 
 	h := hmac.New(sha256.New, []byte(secret))
 
-	h.Write([]byte(str))
+	h.Write([]byte("!@" + str + "@."))
 
 	return hex.EncodeToString(h.Sum(nil))
 }

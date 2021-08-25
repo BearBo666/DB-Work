@@ -8,15 +8,33 @@ import (
 type PioneerDaoManage struct {
 }
 
+// type PioneerDto struct {
+// 	PioneerId int            `json:"pioneerId"`
+// 	Name      string         `json:"name"`
+// 	Title     string         `json:"title"`
+// 	Email     string         `json:"email"`
+// 	Introduce string         `json:"introduce"`
+// 	Avatar    string         `json:"avatar"`
+// 	FreeTime  string         `json:"freeTime"`
+// 	Topics    []PioneerTopic `json:"topics"`
+// }
+
 var PioneerDao PioneerDaoManage
 
 // 根据前人id查找前人
-func (u *PioneerDaoManage) FindByIds(ids []int, currentPage, pageNum int) (pioneer []Pioneer, err error) {
+func (u *PioneerDaoManage) FindByIds(ids []int, currentPage, pageNum int) (pioneerList []Pioneer, err error) {
 
 	if len(ids) > 0 {
-		err = GDB.Preload("Topics").Find(&pioneer, ids).Error
+		err = GDB.
+			Preload("Topics").
+			Find(&pioneerList, ids).Error
 	} else {
-		err = GDB.Limit(pageNum).Offset((currentPage - 1) * pageNum).Find(&pioneer).Error
+		err = GDB.
+			Model(&Pioneer{}).
+			Preload("Topics").
+			Order("createdAt DESC").
+			Limit(pageNum).Offset((currentPage - 1) * pageNum).
+			Find(&pioneerList).Error
 	}
 
 	return
@@ -59,5 +77,15 @@ func (u *PioneerDaoManage) Create(userId, categoryId int, name, title, email, in
 	}
 
 	tx.Commit()
+	return
+}
+
+// 根据用户id查找前人
+func (u *PioneerDaoManage) FindByUserId(userId int) (pioneer *Pioneer, err error) {
+	pioneer = &Pioneer{UserId: userId}
+	err = GDB.First(pioneer).Error
+	if err != nil {
+		return nil, err
+	}
 	return
 }

@@ -22,7 +22,6 @@ func ApplyPioneer(c *gin.Context) {
 		token := c.GetHeader("token")
 		claim, err := helpers.VerifyToken(token)
 		if err != nil {
-			fmt.Println("@@@@")
 			c.JSON(200, dto.FailAndMsg("无登录凭证或凭证已失效"))
 		} else {
 			_, err = PioneerDao.Create(
@@ -68,13 +67,15 @@ func PioneerListByCate(c *gin.Context) {
 
 	pioneerIds, err := PioneerCateDao.FindByCateId(categoryId, pageNum, currentPage)
 	if err != nil {
-		c.JSON(200, dto.Error())
-	}
-
-	pioneerList, err := PioneerDao.FindByIds(pioneerIds, currentPage, pageNum)
-	if err != nil {
+		c.Abort()
 		c.JSON(200, dto.Error())
 	} else {
-		c.JSON(200, dto.OkAndData(pioneerList))
+		pioneerList, err := PioneerDao.FindByIds(pioneerIds, currentPage, pageNum)
+		if err != nil {
+			c.JSON(200, dto.Error())
+		} else {
+			c.JSON(200, dto.OkAndData(pioneerList))
+		}
 	}
+
 }
