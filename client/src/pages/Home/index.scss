@@ -1,0 +1,31 @@
+.slider {
+  height: 160px;
+}
+
+.cate-list {
+  flex-wrap: wrap;
+  .cate-item {
+    height: 60px;
+    width: 70px;
+    .icon-font {
+      width: 30px;
+      height: 30px;
+      background-color: rgb(200, 210, 240);
+    }
+    .icon {
+      font-size: 18px;
+      color: rgb(39, 134, 220) !important;
+      font-weight: bolder;
+    }
+    .cate-title {
+      font-size: 12px;
+    }
+  }
+}
+
+.main {
+  flex-grow: 1;
+  width: 100%;
+  background-color: rgb(250, 249, 254);
+  overflow-y: scroll;
+}

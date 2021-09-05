@@ -4,6 +4,7 @@ import (
 	. "DB-Server/app/dao"
 	"DB-Server/app/dto"
 	"DB-Server/helpers"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +13,7 @@ import (
 func Login(c *gin.Context) {
 	var body dto.UserForm
 	if c.ShouldBind(&body) == nil {
-		user, err := UserDao.FindOne(body.UserName, body.Password)
+		user, err := UserDao.FindOne(body.UserName, helpers.Sha256Crypto(body.Password))
 		if err != nil {
 			c.JSON(200, dto.FailAndMsg("用户名或密码错误"))
 		} else {
@@ -40,5 +41,17 @@ func Register(c *gin.Context) {
 		c.JSON(200, dto.Ok())
 	} else {
 		c.JSON(200, dto.FailAndMsg("未传递用户名或密码"))
+	}
+}
+
+// 用户列表
+func UserList(c *gin.Context) {
+	currentPage, _ := strconv.Atoi(c.DefaultQuery("currentPage", "0"))
+	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "20"))
+	userList, err := UserDao.FindAll(currentPage, pageNum)
+	if err != nil {
+		c.JSON(200, dto.Error())
+	} else {
+		c.JSON(200, dto.OkAndData(userList))
 	}
 }

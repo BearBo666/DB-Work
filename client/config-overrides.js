@@ -1,5 +1,6 @@
 // 使用sass作为全局变量
-const { override, adjustStyleLoaders } = require("customize-cra");
+const { override, adjustStyleLoaders, addDecoratorsLegacy } = require("customize-cra");
+
 
 module.exports = override(
     adjustStyleLoaders(rule => {
@@ -13,5 +14,6 @@ module.exports = override(
                 }
             });
         }
-    })
+    }),
+    addDecoratorsLegacy()
 );

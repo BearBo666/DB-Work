@@ -1,6 +1,10 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"DB-Server/app/middlewares"
+
+	"github.com/gin-gonic/gin"
+)
 
 func RegisterRoutes(r *gin.Engine) {
 	// 注册用户路由
@@ -13,4 +17,13 @@ func RegisterRoutes(r *gin.Engine) {
 	adminRoute(r)
 	// 文章
 	articleRoute(r)
+	// 静态资源托管
+	r.Static("/upload", "./upload")
+	// 上传中间件
+	uploader := r.Group("/upload")
+	{
+		r.MaxMultipartMemory = 8 << 20 // 最大上传
+		// 头像
+		uploader.POST("/avatar", middlewares.Avatar())
+	}
 }

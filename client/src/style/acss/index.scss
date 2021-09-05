@@ -89,8 +89,13 @@ $align-dir: (
     flex-grow: $var;
   }
 }
-.center {
+.center-x {
   @extend .flex-x;
+  @extend .jc-center;
+  @extend .ai-center;
+}
+.center-y {
+  @extend .flex-y;
   @extend .jc-center;
   @extend .ai-center;
 }
@@ -125,6 +130,10 @@ $font-weight: (
   }
 }
 
-.bg-1 {
-  background-color: rgb(148, 0, 211);
+// 布局
+.rela {
+  position: relative;
+}
+.abso {
+  position: absolute;
 }

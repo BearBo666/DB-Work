@@ -1,18 +1,18 @@
 import request from '../utils/request'
 
-// 管理员登录
-export function AdminLogin(data) {
+// 用户登录
+export function UserLogin(data) {
     return request({
-        url: '/admin/login',
+        url: '/user/login',
         method: 'post',
         data
     })
 }
 
-// 管理员注册
-export function AdminRegister(data) {
+// 用户注册
+export function UserRegister(data) {
     return request({
-        url: '/admin/register',
+        url: '/user/register',
         method: 'POST',
         data: data
     })

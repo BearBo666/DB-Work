@@ -45,7 +45,7 @@ func ApplyPioneer(c *gin.Context) {
 	}
 }
 
-// 前人列表
+// 分页查找前人
 func PioneerList(c *gin.Context) {
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "20"))
 	currentPage, _ := strconv.Atoi(c.DefaultQuery("currentPage", "1"))
@@ -77,5 +77,4 @@ func PioneerListByCate(c *gin.Context) {
 			c.JSON(200, dto.OkAndData(pioneerList))
 		}
 	}
-
 }

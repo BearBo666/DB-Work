@@ -3,35 +3,31 @@ import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 
-import { UserLogin } from "../../api/user";
-import Wave from "../../componentes/wave";
-import { setToken } from "../../utils/token";
+import { AdminLogin } from "../../api/admin";
+import { setAuthToken } from "../../utils/token";
 
-const title = {
-  fontWeight: "bolder",
-  fontSize: "25px",
-  color: "rgb(41, 135, 255)",
+const formStyle = {
+  width: "600px",
+  height: "600px",
 };
 
 @withRouter
 export default class index extends Component {
   Login = async (values) => {
-    const res = await UserLogin(values);
+    const res = await AdminLogin(values);
     if (res.code === 10000) {
       message.success("登录成功");
-      this.props.history.push("/home");
-      setToken(res.data);
+      setAuthToken(res.data);
+      this.props.history.push("/admin/home");
     }
   };
 
   render() {
     return (
-      <div className="w-100 h-100 rela center-y">
-        <div className="my-30" style={title}>
-          登录
-        </div>
+      <div className="w-100 h-100 center-y">
         <Form
-          className="w-80"
+          style={formStyle}
+          className="flex-y jc-center"
           initialValues={{ remember: true }}
           onFinish={this.Login}
         >
@@ -39,21 +35,16 @@ export default class index extends Component {
             name="userName"
             rules={[{ required: true, message: "请输入用户名" }]}
           >
-            <Input
-              className="br-10"
-              prefix={<UserOutlined />}
-              placeholder="Username"
-            />
+            <Input prefix={<UserOutlined />} placeholder="用户名" />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[{ required: true, message: "请输入密码" }]}
           >
             <Input
-              className="br-10"
               prefix={<LockOutlined />}
               type="password"
-              placeholder="Password"
+              placeholder="密码"
             />
           </Form.Item>
           <Form.Item>
@@ -67,7 +58,6 @@ export default class index extends Component {
             </Button>
           </Form.Item>
         </Form>
-        <Wave></Wave>
       </div>
     );
   }

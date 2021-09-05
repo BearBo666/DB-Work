@@ -9,8 +9,10 @@ import (
 
 func articleRoute(r *gin.Engine) {
 	router := r.Group("/article")
-	// 获得token，检查是否是前人
+	// 前人发布文章
 	router.POST("/add", middlewares.CheckToken(), middlewares.IsPioneer(), handles.AddArticle)
+	// 某一前人的文章
 	router.GET("/list", handles.ArticleByPioneer)
+	// 某一文章的详情
 	router.GET("/index", handles.ArticleDetail)
 }

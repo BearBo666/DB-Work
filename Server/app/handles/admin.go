@@ -4,6 +4,7 @@ import (
 	"DB-Server/app/dao"
 	"DB-Server/app/dto"
 	"DB-Server/helpers"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,5 +41,18 @@ func AdminRegister(r *gin.Context) {
 		} else {
 			r.JSON(200, dto.Ok())
 		}
+	}
+}
+
+// 管理员列表
+func AdminList(r *gin.Context) {
+	pageNum, _ := strconv.Atoi(r.DefaultQuery("pageNum", "20"))
+	currentPage, _ := strconv.Atoi(r.DefaultQuery("currentPage", "1"))
+
+	admins, err := dao.AdminDao.FindAll(currentPage, pageNum)
+	if err != nil {
+		r.JSON(200, dto.Error())
+	} else {
+		r.JSON(200, dto.OkAndData(admins))
 	}
 }

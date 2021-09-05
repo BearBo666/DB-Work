@@ -28,3 +28,15 @@ func (*CategoryDaoManage) Create(categoryName, iconClass string) (category *Cate
 
 	return
 }
+
+// 更新分类内容
+func (*CategoryDaoManage) Update(id int, rows map[string]interface{}) (err error) {
+	err = GDB.Model(&Category{}).Where("categoryId", id).Updates(rows).Error
+	return
+}
+
+// 删除分类
+func (*CategoryDaoManage) Delete(id int) (err error) {
+	err = GDB.Delete(&Category{}, id).Error
+	return
+}

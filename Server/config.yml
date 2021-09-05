@@ -2,7 +2,7 @@ app:
   # 服务器ip，默认使用 0.0.0.0
   host: 127.0.0.1
   # 服务名称
-  name: MyBlog
+  name: PioneerSay
   # 端口号
   port: 7658
 setting:

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"DB-Server/app/middlewares"
 	"DB-Server/app/routes"
 	"DB-Server/config"
 	"log"
@@ -13,14 +14,16 @@ func InitApp() {
 
 	gin.SetMode(gin.ReleaseMode)
 	// 实例化gin对象
-	r := gin.Default()
+	app := gin.Default()
 
 	// 注册路由
-	routes.RegisterRoutes(r)
+	routes.RegisterRoutes(app)
 
 	port := ":" + config.AppConfig.Port
 	log.Println("服务开启,运行环境:"+config.AppConfig.Env, "端口"+port)
-	err := r.Run(port)
+
+	app.Use(middlewares.Cors())
+	err := app.Run(port)
 
 	if err != nil {
 		log.Println(err)

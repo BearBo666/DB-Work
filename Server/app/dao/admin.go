@@ -21,6 +21,15 @@ func (dao *IAdminDao) FindOne(name, password string) (admin *Admin, err error) {
 	return
 }
 
+// 管理员列表
+func (dao *IAdminDao) FindAll(currentPage, pageNum int) (admins []Admin, err error) {
+	err = GDB.Limit(pageNum).Offset((currentPage - 1) * pageNum).Find(&admins).Error
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
 // 创建一个管理员
 func (dao *IAdminDao) Create(name, password string) (err error) {
 	return GDB.Create(&Admin{Name: name, Password: password}).Error

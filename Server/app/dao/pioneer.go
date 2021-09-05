@@ -8,20 +8,9 @@ import (
 type PioneerDaoManage struct {
 }
 
-// type PioneerDto struct {
-// 	PioneerId int            `json:"pioneerId"`
-// 	Name      string         `json:"name"`
-// 	Title     string         `json:"title"`
-// 	Email     string         `json:"email"`
-// 	Introduce string         `json:"introduce"`
-// 	Avatar    string         `json:"avatar"`
-// 	FreeTime  string         `json:"freeTime"`
-// 	Topics    []PioneerTopic `json:"topics"`
-// }
-
 var PioneerDao PioneerDaoManage
 
-// 根据前人id查找前人
+// 根据前人id数组查找前人
 func (u *PioneerDaoManage) FindByIds(ids []int, currentPage, pageNum int) (pioneerList []Pioneer, err error) {
 
 	if len(ids) > 0 {
@@ -37,6 +26,17 @@ func (u *PioneerDaoManage) FindByIds(ids []int, currentPage, pageNum int) (pione
 			Find(&pioneerList).Error
 	}
 
+	return
+}
+
+// 分页查找前人
+func (u *PioneerDaoManage) FindAll(currentPage, pageNum int) (pioneerList []Pioneer, err error) {
+	err = GDB.
+		Model(&Pioneer{}).
+		Preload("Topics").
+		Order("createdAt DESC").
+		Limit(pageNum).Offset((currentPage - 1) * pageNum).
+		Find(&pioneerList).Error
 	return
 }
 
