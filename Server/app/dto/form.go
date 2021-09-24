@@ -14,7 +14,7 @@ type PioneerForm struct {
 	Introduce  string         `form:"introduce" binding:"required"`
 	Avatar     string         `form:"avatar"`
 	FreeTime   string         `form:"freeTime" binding:"required"`
-	CategoryId int            `form:"categoryId" binding:"required"`
+	CategoryId []int          `form:"categoryId" binding:"required"`
 	Topics     []models.Topic `form:"topics" binding:"required"`
 }
 

@@ -14,9 +14,11 @@ const formStyle = {
 @withRouter
 export default class index extends Component {
   Login = async (values) => {
+    console.log(values);
     const res = await AdminLogin(values);
     if (res.code === 10000) {
       message.success("登录成功");
+      // 储存token
       setAuthToken(res.data);
       this.props.history.push("/admin/home");
     }

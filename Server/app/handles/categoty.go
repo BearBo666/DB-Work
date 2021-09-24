@@ -3,6 +3,7 @@ package handles
 import (
 	. "DB-Server/app/dao"
 	"DB-Server/app/dto"
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -62,7 +63,8 @@ func UpdateCate(c *gin.Context) {
 
 // 删除分类
 func DeleteCate(c *gin.Context) {
-	categoryId := c.Query("categoryId")
+	categoryId := c.PostForm("categoryId")
+	fmt.Println(categoryId)
 	if categoryId == "" {
 		c.JSON(200, dto.FailAndMsg("参数不全"))
 		return

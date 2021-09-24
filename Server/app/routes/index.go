@@ -24,6 +24,6 @@ func RegisterRoutes(r *gin.Engine) {
 	{
 		r.MaxMultipartMemory = 8 << 20 // 最大上传
 		// 头像
-		uploader.POST("/avatar", middlewares.Avatar())
+		uploader.POST("/avatar", middlewares.CheckToken(), middlewares.IsPioneer(), middlewares.Avatar())
 	}
 }

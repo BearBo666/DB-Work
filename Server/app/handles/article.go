@@ -26,7 +26,7 @@ func AddArticle(r *gin.Context) {
 
 // 查找某个前人的文章
 func ArticleByPioneer(r *gin.Context) {
-	pioneerId := r.GetInt("pioneerId")
+	pioneerId, _ := strconv.Atoi(r.Query("pioneerId"))
 	currentPage, e1 := strconv.Atoi(r.DefaultQuery("currentPage", "1"))
 	pageNum, e2 := strconv.Atoi(r.DefaultQuery("pageNum", "20"))
 	if e1 != nil {

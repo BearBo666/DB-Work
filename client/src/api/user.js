@@ -14,6 +14,15 @@ export function UserRegister(data) {
     return request({
         url: '/user/register',
         method: 'POST',
-        data: data
+        data
+    })
+}
+
+// 用户列表
+export function UserList(params) {
+    return request({
+        url: '/user/list',
+        method: 'GET',
+        params
     })
 }

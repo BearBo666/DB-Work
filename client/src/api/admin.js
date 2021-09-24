@@ -17,3 +17,12 @@ export function AdminRegister(data) {
         data: data
     })
 }
+
+// 管理员列表
+export function AdminList(params) {
+    return request({
+        url: '/admin/list',
+        method: 'GET',
+        data: params
+    })
+}

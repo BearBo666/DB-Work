@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 
-import { UserLogin } from "../../api/user";
+import { UserLogin, UserRegister } from "../../api/user";
 import Wave from "../../componentes/wave";
 import { setToken } from "../../utils/token";
 
@@ -11,6 +11,10 @@ const title = {
   fontWeight: "bolder",
   fontSize: "25px",
   color: "rgb(41, 135, 255)",
+};
+
+const wave = {
+  bottom: "0px",
 };
 
 @withRouter
@@ -24,6 +28,13 @@ export default class index extends Component {
     }
   };
 
+  Register = async () => {
+    const res = await UserRegister(this.form.getFieldsValue());
+    if (res.code === 10000) {
+      message.success("注册成功");
+    }
+  };
+
   render() {
     return (
       <div className="w-100 h-100 rela center-y">
@@ -31,6 +42,7 @@ export default class index extends Component {
           登录
         </div>
         <Form
+          ref={(form) => (this.form = form)}
           className="w-80"
           initialValues={{ remember: true }}
           onFinish={this.Login}
@@ -65,9 +77,12 @@ export default class index extends Component {
             <Button type="primary" htmlType="submit">
               登录
             </Button>
+            <Button className="mx-10" type="primary" onClick={this.Register}>
+              注册
+            </Button>
           </Form.Item>
         </Form>
-        <Wave></Wave>
+        <Wave style={wave}></Wave>
       </div>
     );
   }

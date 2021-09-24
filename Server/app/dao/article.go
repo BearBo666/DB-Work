@@ -12,9 +12,8 @@ var ArticleDao IArticleDao
 // 获得前人的某一篇文章
 func (dao *IArticleDao) FindOne(articleId int) (article *Article, err error) {
 	err = GDB.
-		Order("createdAt DESC").
 		Where(&Article{ArticleId: articleId}).
-		First(article).Error
+		First(&article).Error
 
 	if err != nil {
 		return nil, err

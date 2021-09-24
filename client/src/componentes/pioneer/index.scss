@@ -1,6 +1,10 @@
 .pioneer-card {
-  min-height: 200px;
-  max-height: 250px;
+  min-height: 160px;
+  max-height: 200px;
   background-color: white;
-  // box-shadow: 0 0 0.5px #d6d6d6;
+  padding: 15px;
+  box-shadow: 0 0 0.5px #d6d6d6;
+  .catd-top {
+    height: 50px;
+  }
 }

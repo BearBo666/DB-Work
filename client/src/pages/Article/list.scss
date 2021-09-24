@@ -1,0 +1,27 @@
+.info {
+  width: 95%;
+  border: 1px solid #aaaaaa;
+  box-shadow: 0 0 1px #aaaaaa;
+  padding: 10px;
+}
+.article-list {
+  width: 95%;
+  border: 1px solid #aaaaaa;
+  box-shadow: 0 0 1px #aaaaaa;
+  padding: 10px;
+  .article-item {
+    padding: 5px 0;
+    font-size: 24px;
+    text-decoration: underline;
+  }
+}
+.topic-list {
+  width: 95%;
+  border: 1px solid #aaaaaa;
+  box-shadow: 0 0 1px #aaaaaa;
+  padding: 10px;
+  .topic-item {
+    padding: 5px 0;
+    font-size: 24px;
+  }
+}

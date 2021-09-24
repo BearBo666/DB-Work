@@ -41,12 +41,12 @@ func (u *PioneerDaoManage) FindAll(currentPage, pageNum int) (pioneerList []Pion
 }
 
 // 创建一个前人
-func (u *PioneerDaoManage) Create(userId, categoryId int, name, title, email, introduce, avatar, freeTime string, topics []Topic) (pioneer *Pioneer, err error) {
+func (u *PioneerDaoManage) Create(userId int, categoryId []int, name, title, email, introduce, avatar, freeTime string, topics []Topic) (pioneer *Pioneer, err error) {
 
 	// 开启事务
 	tx := GDB.Begin()
 
-	pioneer = &Pioneer{UserId: userId, Name: name, Title: title, Email: email, Introduce: introduce, Avatar: avatar, FreeTime: freeTime}
+	pioneer = &Pioneer{UserId: userId, Name: name, Title: title, Email: email, Introduce: introduce, Avatar: "logo.png", FreeTime: freeTime}
 	// 创建前人记录
 	err = tx.Create(pioneer).Error
 	if err != nil {
@@ -69,11 +69,13 @@ func (u *PioneerDaoManage) Create(userId, categoryId int, name, title, email, in
 	}
 
 	// 创建前人所对应的领域
-	pioneerCate := &PioneerCate{CategoryId: categoryId, PioneerId: pioneer.PioneerId}
-	err = tx.Create(pioneerCate).Error
-	if err != nil {
-		tx.Rollback()
-		return
+	for _, cate := range categoryId {
+		pioneerCate := &PioneerCate{CategoryId: cate, PioneerId: pioneer.PioneerId}
+		err = tx.Create(pioneerCate).Error
+		if err != nil {
+			tx.Rollback()
+			return
+		}
 	}
 
 	tx.Commit()
@@ -87,5 +89,12 @@ func (u *PioneerDaoManage) FindByUserId(userId int) (pioneer *Pioneer, err error
 	if err != nil {
 		return nil, err
 	}
+	return
+}
+
+// 更新头像
+func (u *PioneerDaoManage) Update(pioneerId int, avater string) (err error) {
+	err = GDB.Model(&Pioneer{}).Where("PioneerId", pioneerId).Update("avatar", avater).Error
+
 	return
 }
